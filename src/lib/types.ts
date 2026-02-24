@@ -64,4 +64,11 @@ export interface ZakatFormState {
   nisab: NisabConfig;
 }
 
+export interface CurrencyEntry {
+  id: string;
+  currencyCode: string;
+  amount: number;
+  exchangeRate: number;
+}
+
 export type Locale = "ur" | "en";

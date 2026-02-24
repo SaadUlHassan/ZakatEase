@@ -2,23 +2,27 @@
 
 import { useState, useCallback } from "react";
 import { motion, AnimatePresence } from "framer-motion";
-import { useTranslations } from "next-intl";
-import type { SectionAValues, SectionBValues, NisabConfig } from "@/lib/types";
-import { DEFAULT_SECTION_A, DEFAULT_SECTION_B, DEFAULT_NISAB, WIZARD_STEPS } from "@/lib/constants";
+import { useTranslations, useLocale } from "next-intl";
+import type { SectionAValues, SectionBValues, NisabConfig, CurrencyEntry } from "@/lib/types";
+import { DEFAULT_SECTION_A, DEFAULT_SECTION_B, DEFAULT_NISAB, DEFAULT_PRIMARY_CURRENCY, ALL_CURRENCIES, WIZARD_STEPS } from "@/lib/constants";
 import { useZakatCalculation } from "@/hooks/useZakatCalculation";
-import { formatPKR } from "@/lib/formatters";
+import { formatCurrency } from "@/lib/formatters";
 import { StepProgress } from "./StepProgress";
 import { FieldStep } from "./FieldStep";
 import { ResultStep } from "./ResultStep";
+import { MultiCurrencyInput } from "./MultiCurrencyInput";
 
 const TOTAL_STEPS = WIZARD_STEPS.length + 1;
 
 export function ZakatCalculator() {
   const t = useTranslations();
+  const locale = useLocale();
   const [currentStep, setCurrentStep] = useState(0);
   const [sectionA, setSectionA] = useState<SectionAValues>(DEFAULT_SECTION_A);
   const [sectionB, setSectionB] = useState<SectionBValues>(DEFAULT_SECTION_B);
   const [nisab, setNisab] = useState<NisabConfig>(DEFAULT_NISAB);
+  const [currencyEntries, setCurrencyEntries] = useState<CurrencyEntry[]>([]);
+  const [primaryCurrency, setPrimaryCurrency] = useState(DEFAULT_PRIMARY_CURRENCY);
 
   const calculation = useZakatCalculation(sectionA, sectionB, nisab);
 
@@ -39,10 +43,27 @@ export function ZakatCalculator() {
     setNisab(config);
   }, []);
 
+  const syncForeignCurrencyTotal = useCallback((entries: CurrencyEntry[]) => {
+    setCurrencyEntries(entries);
+    const total = entries.reduce((sum, e) => sum + e.amount * e.exchangeRate, 0);
+    setSectionA((prev) => ({ ...prev, foreignCurrency: total }));
+  }, []);
+
+  const handleCurrencyEntriesChange = syncForeignCurrencyTotal;
+
+  const handlePrimaryCurrencyChange = useCallback((newCurrency: string) => {
+    setPrimaryCurrency(newCurrency);
+    const filtered = currencyEntries.filter((e) => e.currencyCode !== newCurrency);
+    if (filtered.length !== currencyEntries.length) {
+      syncForeignCurrencyTotal(filtered);
+    }
+  }, [currencyEntries, syncForeignCurrencyTotal]);
+
   const handleReset = useCallback(() => {
     setSectionA(DEFAULT_SECTION_A);
     setSectionB(DEFAULT_SECTION_B);
     setNisab(DEFAULT_NISAB);
+    setCurrencyEntries([]);
     setCurrentStep(0);
   }, []);
 
@@ -74,10 +95,25 @@ export function ZakatCalculator() {
         onStepClick={setCurrentStep}
       />
 
-      <div className="text-center mb-4">
+      <div className="flex items-center justify-between mb-4">
         <span className="text-xs text-slate-400 font-inter">
           {currentStep + 1} {t("common.stepOf")} {TOTAL_STEPS}
         </span>
+        <div className="flex items-center gap-1.5">
+          <span className="text-[10px] text-slate-400">{t("settings.primaryCurrency")}</span>
+          <select
+            value={primaryCurrency}
+            onChange={(e) => handlePrimaryCurrencyChange(e.target.value)}
+            className="py-1 px-2 bg-slate-50 border border-slate-200 rounded-lg text-xs font-semibold font-inter text-slate-700 focus:outline-none focus:border-teal-400 focus:ring-1 focus:ring-teal-100 transition-all cursor-pointer appearance-none"
+            style={{ backgroundImage: "url(\"data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' fill='none' viewBox='0 0 20 20'%3e%3cpath stroke='%236b7280' stroke-linecap='round' stroke-linejoin='round' stroke-width='1.5' d='M6 8l4 4 4-4'/%3e%3c/svg%3e\")", backgroundPosition: "right 0.25rem center", backgroundRepeat: "no-repeat", backgroundSize: "1em 1em", paddingRight: "1.25rem" }}
+          >
+            {ALL_CURRENCIES.map((c) => (
+              <option key={c.code} value={c.code}>
+                {c.code} — {locale === "ur" ? c.labelUr : c.labelEn}
+              </option>
+            ))}
+          </select>
+        </div>
       </div>
 
       <div className="min-h-[400px]">
@@ -88,6 +124,7 @@ export function ZakatCalculator() {
               calculation={calculation}
               nisab={nisab}
               onNisabChange={handleNisabChange}
+              currencyCode={primaryCurrency}
             />
           ) : (
             <FieldStep
@@ -96,6 +133,20 @@ export function ZakatCalculator() {
               values={allValues as SectionAValues & SectionBValues}
               onChange={handleFieldChange}
               stepTotal={getStepTotal(currentStep)}
+              currencyCode={primaryCurrency}
+              renderCustomField={(fieldId) => {
+                if (fieldId === "foreignCurrency") {
+                  return (
+                    <MultiCurrencyInput
+                      entries={currencyEntries}
+                      onEntriesChange={handleCurrencyEntriesChange}
+                      total={sectionA.foreignCurrency}
+                      primaryCurrency={primaryCurrency}
+                    />
+                  );
+                }
+                return null;
+              }}
             />
           )}
         </AnimatePresence>
@@ -144,13 +195,13 @@ export function ZakatCalculator() {
           <div className="container mx-auto max-w-xl flex items-center justify-between">
             <div className="text-xs text-slate-500">
               <span className="text-teal-600 font-semibold font-inter" dir="ltr">
-                {formatPKR(calculation.totalAssets)}
+                {formatCurrency(calculation.totalAssets, primaryCurrency)}
               </span>
               {calculation.totalDeductions > 0 && (
                 <>
                   {" "}-{" "}
                   <span className="text-rose-500 font-semibold font-inter" dir="ltr">
-                    {formatPKR(calculation.totalDeductions)}
+                    {formatCurrency(calculation.totalDeductions, primaryCurrency)}
                   </span>
                 </>
               )}
@@ -158,7 +209,7 @@ export function ZakatCalculator() {
             <div className="text-end">
               <p className="text-[10px] text-slate-400">{t("result.netAmount")}</p>
               <p className="text-sm font-bold text-slate-800 font-inter" dir="ltr">
-                {formatPKR(calculation.netZakatableAmount)}
+                {formatCurrency(calculation.netZakatableAmount, primaryCurrency)}
               </p>
             </div>
           </div>

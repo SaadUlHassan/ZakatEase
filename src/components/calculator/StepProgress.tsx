@@ -54,7 +54,7 @@ export function StepProgress({ currentStep, totalSteps, onStepClick }: StepProgr
                 <StepIcon name={step.icon} />
               </motion.div>
               <span
-                className={`text-[10px] leading-tight text-center hidden sm:block ${
+                className={`text-[10px] leading-tight text-center hidden sm:block font-inter ${
                   isActive ? "text-teal-700 font-semibold" : isCompleted ? "text-teal-600" : "text-slate-400"
                 }`}
               >

@@ -35,8 +35,19 @@
   --color-slate-900: #0f172a;
 }
 
-[dir="rtl"] {
-  line-height: 2;
+/* Nastaliq script needs generous line-height, but only on Urdu text blocks */
+[dir="rtl"] .font-nastaliq {
+  line-height: 2.4;
+}
+
+/* English text inside RTL should use normal line-height */
+[dir="rtl"] .font-inter {
+  line-height: 1.5;
+}
+
+/* Inputs always use normal line-height */
+input {
+  line-height: 1.5;
 }
 
 input[type="number"]::-webkit-inner-spin-button,

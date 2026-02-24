@@ -1,22 +1,22 @@
 "use client";
 
-import { useState, useCallback } from "react";
+import { useCallback } from "react";
 import { motion } from "framer-motion";
 import { useTranslations } from "next-intl";
 import type { NisabConfig, NisabStandard, ZakatCalculation } from "@/lib/types";
-import { formatPKR, formatNumber, parseCurrencyInput } from "@/lib/formatters";
+import { formatCurrency } from "@/lib/formatters";
 import { NISAB_GOLD_TOLA, NISAB_SILVER_TOLA } from "@/lib/constants";
+import { useNumericInput } from "@/hooks/useNumericInput";
 
 interface ResultStepProps {
   calculation: ZakatCalculation;
   nisab: NisabConfig;
   onNisabChange: (config: NisabConfig) => void;
+  currencyCode?: string;
 }
 
-export function ResultStep({ calculation, nisab, onNisabChange }: ResultStepProps) {
+export function ResultStep({ calculation, nisab, onNisabChange, currencyCode = "PKR" }: ResultStepProps) {
   const t = useTranslations();
-  const [isFocused, setIsFocused] = useState(false);
-  const [displayValue, setDisplayValue] = useState("");
 
   const handleStandardChange = useCallback(
     (standard: NisabStandard) => {
@@ -25,24 +25,12 @@ export function ResultStep({ calculation, nisab, onNisabChange }: ResultStepProp
     [nisab, onNisabChange]
   );
 
-  const handleFocus = useCallback(() => {
-    setIsFocused(true);
-    setDisplayValue(nisab.pricePerTola > 0 ? String(nisab.pricePerTola) : "");
-  }, [nisab.pricePerTola]);
+  const handlePriceChange = useCallback(
+    (val: number) => onNisabChange({ ...nisab, pricePerTola: val }),
+    [nisab, onNisabChange]
+  );
 
-  const handleBlur = useCallback(() => {
-    setIsFocused(false);
-    const parsed = parseCurrencyInput(displayValue);
-    onNisabChange({ ...nisab, pricePerTola: parsed });
-    setDisplayValue("");
-  }, [displayValue, nisab, onNisabChange]);
-
-  const handleChange = useCallback((e: React.ChangeEvent<HTMLInputElement>) => {
-    const raw = e.target.value;
-    if (/^[0-9]*\.?[0-9]*$/.test(raw)) {
-      setDisplayValue(raw);
-    }
-  }, []);
+  const nisabInput = useNumericInput(nisab.pricePerTola, handlePriceChange);
 
   const tolas = nisab.standard === "gold" ? NISAB_GOLD_TOLA : NISAB_SILVER_TOLA;
   const nisabEntered = nisab.pricePerTola > 0;
@@ -64,11 +52,11 @@ export function ResultStep({ calculation, nisab, onNisabChange }: ResultStepProp
           className="flex items-center justify-between p-4 border-b border-slate-100"
         >
           <div>
-            <p className="text-sm font-semibold text-slate-700">{t("result.totalAssets")}</p>
-            <p className="text-xs text-slate-400 font-inter">{t("result.totalAssetsSecondary")}</p>
+            <p className="text-sm font-semibold text-slate-700 leading-relaxed">{t("result.totalAssets")}</p>
+            <p className="text-xs text-slate-400 font-inter mt-0.5" dir="ltr">{t("result.totalAssetsSecondary")}</p>
           </div>
           <span className="text-lg font-bold text-teal-600 font-inter" dir="ltr">
-            {formatPKR(calculation.totalAssets)}
+            {formatCurrency(calculation.totalAssets, currencyCode)}
           </span>
         </motion.div>
         <motion.div
@@ -78,11 +66,11 @@ export function ResultStep({ calculation, nisab, onNisabChange }: ResultStepProp
           className="flex items-center justify-between p-4 border-b border-slate-100"
         >
           <div>
-            <p className="text-sm font-semibold text-slate-700">{t("result.totalDeductions")}</p>
-            <p className="text-xs text-slate-400 font-inter">{t("result.totalDeductionsSecondary")}</p>
+            <p className="text-sm font-semibold text-slate-700 leading-relaxed">{t("result.totalDeductions")}</p>
+            <p className="text-xs text-slate-400 font-inter mt-0.5" dir="ltr">{t("result.totalDeductionsSecondary")}</p>
           </div>
           <span className="text-lg font-bold text-rose-500 font-inter" dir="ltr">
-            - {formatPKR(calculation.totalDeductions)}
+            - {formatCurrency(calculation.totalDeductions, currencyCode)}
           </span>
         </motion.div>
         <motion.div
@@ -92,11 +80,11 @@ export function ResultStep({ calculation, nisab, onNisabChange }: ResultStepProp
           className="flex items-center justify-between p-4 bg-slate-50"
         >
           <div>
-            <p className="text-base font-bold text-slate-800">{t("result.netAmount")}</p>
-            <p className="text-xs text-slate-400 font-inter">{t("result.netAmountSecondary")}</p>
+            <p className="text-base font-bold text-slate-800 leading-relaxed">{t("result.netAmount")}</p>
+            <p className="text-xs text-slate-400 font-inter mt-0.5" dir="ltr">{t("result.netAmountSecondary")}</p>
           </div>
           <span className="text-xl font-bold text-slate-800 font-inter" dir="ltr">
-            {formatPKR(calculation.netZakatableAmount)}
+            {formatCurrency(calculation.netZakatableAmount, currencyCode)}
           </span>
         </motion.div>
       </div>
@@ -110,7 +98,7 @@ export function ResultStep({ calculation, nisab, onNisabChange }: ResultStepProp
       >
         <div>
           <h3 className="text-base font-bold text-slate-800">{t("nisab.title")}</h3>
-          <p className="text-xs text-slate-400 mt-0.5">{t("nisab.description")}</p>
+          <p className="text-xs text-slate-400 mt-1">{t("nisab.description")}</p>
         </div>
 
         {/* Gold / Silver toggle */}
@@ -145,26 +133,20 @@ export function ResultStep({ calculation, nisab, onNisabChange }: ResultStepProp
             {t("nisab.pricePerTola")}
           </label>
           <div className="relative">
-            <span className="absolute top-1/2 -translate-y-1/2 inset-s-3.5 text-slate-400 text-xs font-semibold font-inter">
-              PKR
+            <span className="absolute top-1/2 -translate-y-1/2 left-3.5 text-slate-400 text-xs font-semibold font-inter">
+              {currencyCode}
             </span>
             <input
               id="nisab-price"
               type="text"
               inputMode="numeric"
-              value={
-                isFocused
-                  ? displayValue
-                  : nisab.pricePerTola > 0
-                    ? formatNumber(nisab.pricePerTola)
-                    : ""
-              }
-              onChange={handleChange}
-              onFocus={handleFocus}
-              onBlur={handleBlur}
+              value={nisabInput.inputValue}
+              onChange={nisabInput.handleChange}
+              onFocus={nisabInput.handleFocus}
+              onBlur={nisabInput.handleBlur}
               placeholder="0"
               dir="ltr"
-              className="w-full ps-13 pe-4 py-3 bg-slate-50 border border-slate-200 rounded-xl text-end text-lg font-medium font-inter text-slate-800 placeholder-slate-300 focus:outline-none focus:bg-white focus:border-teal-400 focus:ring-2 focus:ring-teal-100 transition-all"
+              className="w-full pl-13 pr-4 py-3 bg-slate-50 border border-slate-200 rounded-xl text-end text-lg font-medium font-inter text-slate-800 placeholder-slate-300 focus:outline-none focus:bg-white focus:border-teal-400 focus:ring-2 focus:ring-teal-100 transition-all"
             />
           </div>
         </div>
@@ -176,7 +158,7 @@ export function ResultStep({ calculation, nisab, onNisabChange }: ResultStepProp
             animate={{ opacity: 1 }}
             className="text-sm text-slate-500"
           >
-            {t("nisab.nisabValue")}: <span className="font-semibold font-inter text-slate-700" dir="ltr">{formatPKR(calculation.nisabThreshold)}</span>
+            {t("nisab.nisabValue")}: <span className="font-semibold font-inter text-slate-700" dir="ltr">{formatCurrency(calculation.nisabThreshold, currencyCode)}</span>
             <span className="text-xs text-slate-400 ms-1">({tolas} tola)</span>
           </motion.div>
         )}
@@ -205,7 +187,7 @@ export function ResultStep({ calculation, nisab, onNisabChange }: ResultStepProp
               className="text-4xl font-bold mt-3 font-inter"
               dir="ltr"
             >
-              {formatPKR(calculation.zakatAmount)}
+              {formatCurrency(calculation.zakatAmount, currencyCode)}
             </motion.p>
           </div>
         ) : (

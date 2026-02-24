@@ -21,12 +21,24 @@
     "gold": { "label": "Gold", "secondary": "سونا" },
     "silver": { "label": "Silver", "secondary": "چاندی" },
     "tradeGoods": { "label": "Trade Goods", "secondary": "مال تجارت" },
-    "tradeGoodsNote": "If NOT for selling but for renting/investment, no Zakat applies.",
+    "tradeGoodsNote": "Include market value of property/apartments bought for RESALE. Property for personal use or renting is NOT zakatable.",
     "cashInHand": { "label": "Cash in Hand", "secondary": "ہاتھ میں رقم" },
     "bankBalance": { "label": "Bank Balance", "secondary": "بینک بیلنس" },
     "receivableDebts": { "label": "Receivable Debts", "secondary": "واجب الوصول ادھار" },
     "receivableDebtsNote": "Only debts likely to be recovered.",
     "foreignCurrency": { "label": "Foreign Currency", "secondary": "غیر ملکی کرنسی" },
+    "foreignCurrencyNote": "Add each foreign currency account separately (Wise, Payoneer, crypto wallets, etc.). Enter amount in original currency and the exchange rate to your primary currency.",
+    "multiCurrency": {
+      "addCurrency": "Add Currency",
+      "remove": "Remove",
+      "selectCurrency": "Select currency",
+      "amount": "Amount",
+      "rate": "Rate ({currency})",
+      "equivalent": "{currency} Equivalent",
+      "total": "Total Foreign Currency",
+      "other": "Other",
+      "perUnit": "{currency} per"
+    },
     "sharesForSale": { "label": "Shares (to sell)", "secondary": "شیئرز (بیچنے کیلئے)" },
     "sharesForDividends": { "label": "Shares (dividends)", "secondary": "شیئرز (منافع)" },
     "sharesForDividendsNote": "Non-zakatable assets value can be subtracted.",
@@ -49,6 +61,7 @@
     "employeeSalaries": { "label": "Employee Salaries", "secondary": "تنخواہیں" },
     "previousZakat": { "label": "Previous Zakat", "secondary": "گزشتہ زکوٰۃ" },
     "installmentsDue": { "label": "Installments Due", "secondary": "واجب اقساط" },
+    "installmentsDueNote": "Enter only installments CURRENTLY DUE (e.g., this quarter's apartment installment). Future installments not yet due are generally NOT deductible.",
     "total": "Total Deductions"
   },
   "nisab": {
@@ -79,6 +92,9 @@
     "noZakatReason": "Net amount is below Nisab",
     "enterNisab": "Enter Nisab value",
     "enterNisabReason": "Enter gold or silver price per tola"
+  },
+  "settings": {
+    "primaryCurrency": "Primary Currency"
   },
   "common": {
     "pkr": "PKR",

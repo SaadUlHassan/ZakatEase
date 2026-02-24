@@ -14,7 +14,7 @@ const F = {
   cashInHand: { id: "cashInHand", index: 4, translationKey: "sectionA.cashInHand", section: "A" as const },
   bankBalance: { id: "bankBalance", index: 5, translationKey: "sectionA.bankBalance", section: "A" as const },
   receivableDebts: { id: "receivableDebts", index: 6, translationKey: "sectionA.receivableDebts", tooltip: "sectionA.receivableDebtsNote", section: "A" as const },
-  foreignCurrency: { id: "foreignCurrency", index: 7, translationKey: "sectionA.foreignCurrency", section: "A" as const },
+  foreignCurrency: { id: "foreignCurrency", index: 7, translationKey: "sectionA.foreignCurrency", tooltip: "sectionA.foreignCurrencyNote", section: "A" as const },
   sharesForSale: { id: "sharesForSale", index: 8, translationKey: "sectionA.sharesForSale", section: "A" as const },
   sharesForDividends: { id: "sharesForDividends", index: 9, translationKey: "sectionA.sharesForDividends", tooltip: "sectionA.sharesForDividendsNote", section: "A" as const },
   savingsCertificates: { id: "savingsCertificates", index: 10, translationKey: "sectionA.savingsCertificates", tooltip: "sectionA.savingsCertificatesNote", section: "A" as const },
@@ -29,7 +29,7 @@ const F = {
   partyPayments: { id: "partyPayments", index: 4, translationKey: "sectionB.partyPayments", section: "B" as const },
   employeeSalaries: { id: "employeeSalaries", index: 5, translationKey: "sectionB.employeeSalaries", section: "B" as const },
   previousZakat: { id: "previousZakat", index: 6, translationKey: "sectionB.previousZakat", section: "B" as const },
-  installmentsDue: { id: "installmentsDue", index: 7, translationKey: "sectionB.installmentsDue", section: "B" as const },
+  installmentsDue: { id: "installmentsDue", index: 7, translationKey: "sectionB.installmentsDue", tooltip: "sectionB.installmentsDueNote", section: "B" as const },
 };
 
 export const WIZARD_STEPS: StepDef[] = [
@@ -84,6 +84,18 @@ export const SECTION_A_FIELDS: ZakatFieldDef[] = WIZARD_STEPS
 export const SECTION_B_FIELDS: ZakatFieldDef[] = WIZARD_STEPS
   .filter((s) => s.section === "B")
   .flatMap((s) => s.fields);
+
+export const ALL_CURRENCIES = [
+  { code: "PKR", labelEn: "Pakistani Rupee", labelUr: "پاکستانی روپیہ", symbol: "₨" },
+  { code: "USD", labelEn: "US Dollar", labelUr: "امریکی ڈالر", symbol: "$" },
+  { code: "GBP", labelEn: "British Pound", labelUr: "برطانوی پاؤنڈ", symbol: "£" },
+  { code: "EUR", labelEn: "Euro", labelUr: "یورو", symbol: "€" },
+  { code: "AED", labelEn: "UAE Dirham", labelUr: "اماراتی درہم", symbol: "د.إ" },
+  { code: "SAR", labelEn: "Saudi Riyal", labelUr: "سعودی ریال", symbol: "﷼" },
+  { code: "USDT", labelEn: "Tether (USDT)", labelUr: "ٹیتھر (USDT)", symbol: "₮" },
+] as const;
+
+export const DEFAULT_PRIMARY_CURRENCY = "PKR";
 
 export const DEFAULT_SECTION_A: SectionAValues = {
   gold: 0, silver: 0, tradeGoods: 0, cashInHand: 0, bankBalance: 0,

@@ -2,8 +2,9 @@
 
 import { motion } from "framer-motion";
 import { useTranslations } from "next-intl";
+import type { ReactNode } from "react";
 import type { StepDef, SectionAValues, SectionBValues } from "@/lib/types";
-import { formatPKR } from "@/lib/formatters";
+import { formatCurrency } from "@/lib/formatters";
 import { CurrencyInput } from "./CurrencyInput";
 import { StepIcon } from "./StepIcon";
 
@@ -12,9 +13,11 @@ interface FieldStepProps {
   values: SectionAValues & SectionBValues;
   onChange: (field: string, value: number) => void;
   stepTotal: number;
+  renderCustomField?: (fieldId: string) => ReactNode | null;
+  currencyCode?: string;
 }
 
-export function FieldStep({ step, values, onChange, stepTotal }: FieldStepProps) {
+export function FieldStep({ step, values, onChange, stepTotal, renderCustomField, currencyCode = "PKR" }: FieldStepProps) {
   const t = useTranslations();
 
   return (
@@ -34,10 +37,10 @@ export function FieldStep({ step, values, onChange, stepTotal }: FieldStepProps)
           <StepIcon name={step.icon} />
         </div>
         <div>
-          <h2 className="text-xl font-bold text-slate-800">
+          <h2 className="text-xl font-bold text-slate-800 leading-relaxed">
             {t(`${step.translationKey}.title`)}
           </h2>
-          <p className="text-sm text-slate-400 font-inter">
+          <p className="text-sm text-slate-400 font-inter mt-0.5" dir="ltr">
             {t(`${step.translationKey}.subtitle`)}
           </p>
         </div>
@@ -46,6 +49,11 @@ export function FieldStep({ step, values, onChange, stepTotal }: FieldStepProps)
       {/* Fields */}
       <div className="space-y-3">
         {step.fields.map((field, i) => {
+          if (renderCustomField) {
+            const custom = renderCustomField(field.id);
+            if (custom) return <div key={field.id}>{custom}</div>;
+          }
+
           const label = t(`${field.translationKey}.label`);
           const secondary = t(`${field.translationKey}.secondary`);
           const tooltip = field.tooltip ? t(field.tooltip) : undefined;
@@ -60,6 +68,7 @@ export function FieldStep({ step, values, onChange, stepTotal }: FieldStepProps)
               value={values[field.id as keyof typeof values] || 0}
               onChange={(val) => onChange(field.id, val)}
               tooltip={tooltip}
+              currencyCode={currencyCode}
             />
           );
         })}
@@ -84,7 +93,7 @@ export function FieldStep({ step, values, onChange, stepTotal }: FieldStepProps)
           <span className={`text-lg font-bold font-inter ${
             step.section === "B" ? "text-rose-600" : "text-teal-600"
           }`} dir="ltr">
-            {formatPKR(stepTotal)}
+            {formatCurrency(stepTotal, currencyCode)}
           </span>
         </motion.div>
       )}

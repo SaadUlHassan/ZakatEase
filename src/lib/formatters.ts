@@ -1,14 +1,18 @@
-export function formatPKR(amount: number): string {
-  return new Intl.NumberFormat("en-PK", {
-    style: "currency",
-    currency: "PKR",
-    minimumFractionDigits: 0,
-    maximumFractionDigits: 0,
-  }).format(amount);
+export function formatCurrency(amount: number, currencyCode: string = "PKR"): string {
+  try {
+    return new Intl.NumberFormat("en-US", {
+      style: "currency",
+      currency: currencyCode,
+      minimumFractionDigits: 0,
+      maximumFractionDigits: 0,
+    }).format(amount);
+  } catch {
+    return `${currencyCode} ${formatNumber(amount)}`;
+  }
 }
 
 export function formatNumber(amount: number): string {
-  return new Intl.NumberFormat("en-PK", {
+  return new Intl.NumberFormat("en-US", {
     minimumFractionDigits: 0,
     maximumFractionDigits: 0,
   }).format(amount);

@@ -20,8 +20,8 @@ export function Header() {
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.5 }}
           >
-            <h1 className="text-3xl font-bold tracking-tight">{t("title")}</h1>
-            <p className="text-teal-200 text-sm mt-1">{t("subtitle")}</p>
+            <h1 className="text-3xl font-bold tracking-tight leading-[1.8]">{t("title")}</h1>
+            <p className="text-teal-200 text-sm mt-2 leading-relaxed">{t("subtitle")}</p>
           </motion.div>
           <LanguageToggle />
         </div>
@@ -29,7 +29,7 @@ export function Header() {
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
           transition={{ delay: 0.3 }}
-          className="text-teal-100 text-sm mt-4 max-w-xs"
+          className="text-teal-100 text-sm mt-5 max-w-xs leading-relaxed"
         >
           {t("description")}
         </motion.p>
