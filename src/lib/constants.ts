@@ -9,6 +9,10 @@ export const NISAB_SILVER_TOLA = 52.5;
 export const NISAB_GOLD_GRAMS = 87.48;
 export const NISAB_SILVER_GRAMS = 612.36;
 
+export const TROY_OZ_GRAMS = 31.1035;
+export const TOLA_GRAMS = 11.6638;
+export const TOLAS_PER_TROY_OZ = TROY_OZ_GRAMS / TOLA_GRAMS;
+
 const F = {
   gold: { id: "gold", index: 1, translationKey: "sectionA.gold", section: "A" as const },
   silver: { id: "silver", index: 2, translationKey: "sectionA.silver", section: "A" as const },
@@ -199,6 +203,6 @@ export const DEFAULT_SECTION_B: SectionBValues = {
 };
 
 export const DEFAULT_NISAB: NisabConfig = {
-  standard: "gold",
-  pricePerTola: 0,
+  goldPricePerTola: 0,
+  silverPricePerTola: 0,
 };

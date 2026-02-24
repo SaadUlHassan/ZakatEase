@@ -45,15 +45,18 @@ export interface SectionBValues {
 export type NisabStandard = "gold" | "silver";
 
 export interface NisabConfig {
-  standard: NisabStandard;
-  pricePerTola: number;
+  goldPricePerTola: number;
+  silverPricePerTola: number;
 }
 
 export interface ZakatCalculation {
   totalAssets: number;
   totalDeductions: number;
   netZakatableAmount: number;
+  goldNisabThreshold: number;
+  silverNisabThreshold: number;
   nisabThreshold: number;
+  activeStandard: NisabStandard | null;
   meetsNisab: boolean;
   zakatAmount: number;
 }

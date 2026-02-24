@@ -66,13 +66,14 @@
   },
   "nisab": {
     "title": "Nisab",
-    "description": "Zakat is only obligatory when net wealth exceeds Nisab",
-    "goldStandard": "Gold Standard",
-    "silverStandard": "Silver Standard",
+    "description": "The lower of the two thresholds is used automatically",
+    "goldPricePerTola": "Gold price per tola",
+    "silverPricePerTola": "Silver price per tola",
     "goldLabel": "Gold (7.5 Tola)",
     "silverLabel": "Silver (52.5 Tola)",
-    "pricePerTola": "Price per Tola",
-    "pricePerTolaSecondary": "فی تولہ قیمت",
+    "goldNisab": "Gold Nisab",
+    "silverNisab": "Silver Nisab",
+    "activeNisab": "Active",
     "nisabValue": "Nisab Value",
     "meetsNisab": "Nisab met — Zakat is obligatory",
     "belowNisab": "Below Nisab — Zakat not obligatory"
@@ -130,6 +131,7 @@
     "seeResult": "See Result",
     "startOver": "Start Over",
     "print": "Print",
+    "generateReport": "Generate Zakat Report",
     "language": "اردو",
     "disclaimer": "For self-assessment only. Consult a scholar for specific rulings.",
     "stepOf": "of"
