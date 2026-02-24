@@ -13,7 +13,10 @@ interface StepProgressProps {
 
 export function StepProgress({ currentStep, totalSteps, onStepClick }: StepProgressProps) {
   const t = useTranslations();
-  const allSteps = [...WIZARD_STEPS.map((s) => ({ ...s })), { id: "result", translationKey: "steps.result", icon: "result" }];
+  const allSteps = [
+    ...WIZARD_STEPS.map((s) => ({ ...s })),
+    { id: "result", translationKey: "steps.result", icon: "result" },
+  ];
 
   return (
     <div className="w-full py-4 no-print">

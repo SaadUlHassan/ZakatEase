@@ -1,0 +1,16 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" fill="none">
+  <defs>
+    <linearGradient id="bg" x1="0" y1="0" x2="512" y2="512" gradientUnits="userSpaceOnUse">
+      <stop stop-color="#0d9488"/>
+      <stop offset="1" stop-color="#115e59"/>
+    </linearGradient>
+  </defs>
+  <rect width="512" height="512" rx="112" fill="url(#bg)"/>
+  <!-- Crescent -->
+  <circle cx="256" cy="220" r="110" fill="#ccfbf1" opacity="0.9"/>
+  <circle cx="296" cy="200" r="90" fill="url(#bg)"/>
+  <!-- Coin / giving hand symbol -->
+  <circle cx="256" cy="340" r="52" fill="#ccfbf1" opacity="0.85"/>
+  <circle cx="256" cy="340" r="40" fill="none" stroke="url(#bg)" stroke-width="6"/>
+  <text x="256" y="356" text-anchor="middle" font-family="Arial, sans-serif" font-size="40" font-weight="bold" fill="#0f766e">Z</text>
+</svg>

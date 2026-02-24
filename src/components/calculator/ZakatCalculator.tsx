@@ -4,7 +4,14 @@ import { useState, useCallback } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { useTranslations, useLocale } from "next-intl";
 import type { SectionAValues, SectionBValues, NisabConfig, CurrencyEntry } from "@/lib/types";
-import { DEFAULT_SECTION_A, DEFAULT_SECTION_B, DEFAULT_NISAB, DEFAULT_PRIMARY_CURRENCY, ALL_CURRENCIES, WIZARD_STEPS } from "@/lib/constants";
+import {
+  DEFAULT_SECTION_A,
+  DEFAULT_SECTION_B,
+  DEFAULT_NISAB,
+  DEFAULT_PRIMARY_CURRENCY,
+  ALL_CURRENCIES,
+  WIZARD_STEPS,
+} from "@/lib/constants";
 import { useZakatCalculation } from "@/hooks/useZakatCalculation";
 import { formatCurrency } from "@/lib/formatters";
 import { StepProgress } from "./StepProgress";
@@ -51,13 +58,16 @@ export function ZakatCalculator() {
 
   const handleCurrencyEntriesChange = syncForeignCurrencyTotal;
 
-  const handlePrimaryCurrencyChange = useCallback((newCurrency: string) => {
-    setPrimaryCurrency(newCurrency);
-    const filtered = currencyEntries.filter((e) => e.currencyCode !== newCurrency);
-    if (filtered.length !== currencyEntries.length) {
-      syncForeignCurrencyTotal(filtered);
-    }
-  }, [currencyEntries, syncForeignCurrencyTotal]);
+  const handlePrimaryCurrencyChange = useCallback(
+    (newCurrency: string) => {
+      setPrimaryCurrency(newCurrency);
+      const filtered = currencyEntries.filter((e) => e.currencyCode !== newCurrency);
+      if (filtered.length !== currencyEntries.length) {
+        syncForeignCurrencyTotal(filtered);
+      }
+    },
+    [currencyEntries, syncForeignCurrencyTotal]
+  );
 
   const handleReset = useCallback(() => {
     setSectionA(DEFAULT_SECTION_A);
@@ -89,11 +99,7 @@ export function ZakatCalculator() {
 
   return (
     <div className="container mx-auto max-w-xl px-4 py-6">
-      <StepProgress
-        currentStep={currentStep}
-        totalSteps={TOTAL_STEPS}
-        onStepClick={setCurrentStep}
-      />
+      <StepProgress currentStep={currentStep} totalSteps={TOTAL_STEPS} onStepClick={setCurrentStep} />
 
       <div className="flex items-center justify-between mb-4">
         <span className="text-xs text-slate-400 font-inter">
@@ -105,7 +111,14 @@ export function ZakatCalculator() {
             value={primaryCurrency}
             onChange={(e) => handlePrimaryCurrencyChange(e.target.value)}
             className="py-1 px-2 bg-slate-50 border border-slate-200 rounded-lg text-xs font-semibold font-inter text-slate-700 focus:outline-none focus:border-teal-400 focus:ring-1 focus:ring-teal-100 transition-all cursor-pointer appearance-none"
-            style={{ backgroundImage: "url(\"data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' fill='none' viewBox='0 0 20 20'%3e%3cpath stroke='%236b7280' stroke-linecap='round' stroke-linejoin='round' stroke-width='1.5' d='M6 8l4 4 4-4'/%3e%3c/svg%3e\")", backgroundPosition: "right 0.25rem center", backgroundRepeat: "no-repeat", backgroundSize: "1em 1em", paddingRight: "1.25rem" }}
+            style={{
+              backgroundImage:
+                "url(\"data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' fill='none' viewBox='0 0 20 20'%3e%3cpath stroke='%236b7280' stroke-linecap='round' stroke-linejoin='round' stroke-width='1.5' d='M6 8l4 4 4-4'/%3e%3c/svg%3e\")",
+              backgroundPosition: "right 0.25rem center",
+              backgroundRepeat: "no-repeat",
+              backgroundSize: "1em 1em",
+              paddingRight: "1.25rem",
+            }}
           >
             {ALL_CURRENCIES.map((c) => (
               <option key={c.code} value={c.code}>
@@ -199,7 +212,8 @@ export function ZakatCalculator() {
               </span>
               {calculation.totalDeductions > 0 && (
                 <>
-                  {" "}-{" "}
+                  {" "}
+                  -{" "}
                   <span className="text-rose-500 font-semibold font-inter" dir="ltr">
                     {formatCurrency(calculation.totalDeductions, primaryCurrency)}
                   </span>

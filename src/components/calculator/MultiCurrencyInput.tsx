@@ -152,10 +152,24 @@ interface CurrencyEntryRowProps {
   onRemove: () => void;
 }
 
-function CurrencyEntryRow({ entry, locale, usedCodes, availableCurrencies, primaryCurrency, onUpdate, onRemove }: CurrencyEntryRowProps) {
+function CurrencyEntryRow({
+  entry,
+  locale,
+  usedCodes,
+  availableCurrencies,
+  primaryCurrency,
+  onUpdate,
+  onRemove,
+}: CurrencyEntryRowProps) {
   const t = useTranslations("sectionA.multiCurrency");
-  const amtInput = useNumericInput(entry.amount, useCallback((v: number) => onUpdate({ amount: v }), [onUpdate]));
-  const rateInput = useNumericInput(entry.exchangeRate, useCallback((v: number) => onUpdate({ exchangeRate: v }), [onUpdate]));
+  const amtInput = useNumericInput(
+    entry.amount,
+    useCallback((v: number) => onUpdate({ amount: v }), [onUpdate])
+  );
+  const rateInput = useNumericInput(
+    entry.exchangeRate,
+    useCallback((v: number) => onUpdate({ exchangeRate: v }), [onUpdate])
+  );
 
   const equivalent = entry.amount * entry.exchangeRate;
 
@@ -174,7 +188,14 @@ function CurrencyEntryRow({ entry, locale, usedCodes, availableCurrencies, prima
           value={entry.currencyCode}
           onChange={(e) => onUpdate({ currencyCode: e.target.value })}
           className="flex-1 py-2 px-3 bg-white border border-slate-200 rounded-lg text-sm font-medium text-slate-700 focus:outline-none focus:border-teal-400 focus:ring-2 focus:ring-teal-100 transition-all cursor-pointer appearance-none"
-          style={{ backgroundImage: "url(\"data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' fill='none' viewBox='0 0 20 20'%3e%3cpath stroke='%236b7280' stroke-linecap='round' stroke-linejoin='round' stroke-width='1.5' d='M6 8l4 4 4-4'/%3e%3c/svg%3e\")", backgroundPosition: "right 0.5rem center", backgroundRepeat: "no-repeat", backgroundSize: "1.25em 1.25em", paddingRight: "2rem" }}
+          style={{
+            backgroundImage:
+              "url(\"data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' fill='none' viewBox='0 0 20 20'%3e%3cpath stroke='%236b7280' stroke-linecap='round' stroke-linejoin='round' stroke-width='1.5' d='M6 8l4 4 4-4'/%3e%3c/svg%3e\")",
+            backgroundPosition: "right 0.5rem center",
+            backgroundRepeat: "no-repeat",
+            backgroundSize: "1.25em 1.25em",
+            paddingRight: "2rem",
+          }}
         >
           <option value="">{t("selectCurrency")}</option>
           {availableCurrencies.map((p) => (
@@ -214,7 +235,8 @@ function CurrencyEntryRow({ entry, locale, usedCodes, availableCurrencies, prima
         </div>
         <div>
           <label className="block text-[11px] text-slate-500 mb-1 font-inter">
-            {t("rate", { currency: primaryCurrency })} {entry.currencyCode && entry.currencyCode !== "OTHER" ? `/ ${entry.currencyCode}` : ""}
+            {t("rate", { currency: primaryCurrency })}{" "}
+            {entry.currencyCode && entry.currencyCode !== "OTHER" ? `/ ${entry.currencyCode}` : ""}
           </label>
           <input
             type="text"

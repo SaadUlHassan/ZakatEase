@@ -53,7 +53,9 @@ export function ResultStep({ calculation, nisab, onNisabChange, currencyCode = "
         >
           <div>
             <p className="text-sm font-semibold text-slate-700 leading-relaxed">{t("result.totalAssets")}</p>
-            <p className="text-xs text-slate-400 font-inter mt-0.5" dir="ltr">{t("result.totalAssetsSecondary")}</p>
+            <p className="text-xs text-slate-400 font-inter mt-0.5" dir="ltr">
+              {t("result.totalAssetsSecondary")}
+            </p>
           </div>
           <span className="text-lg font-bold text-teal-600 font-inter" dir="ltr">
             {formatCurrency(calculation.totalAssets, currencyCode)}
@@ -67,7 +69,9 @@ export function ResultStep({ calculation, nisab, onNisabChange, currencyCode = "
         >
           <div>
             <p className="text-sm font-semibold text-slate-700 leading-relaxed">{t("result.totalDeductions")}</p>
-            <p className="text-xs text-slate-400 font-inter mt-0.5" dir="ltr">{t("result.totalDeductionsSecondary")}</p>
+            <p className="text-xs text-slate-400 font-inter mt-0.5" dir="ltr">
+              {t("result.totalDeductionsSecondary")}
+            </p>
           </div>
           <span className="text-lg font-bold text-rose-500 font-inter" dir="ltr">
             - {formatCurrency(calculation.totalDeductions, currencyCode)}
@@ -81,7 +85,9 @@ export function ResultStep({ calculation, nisab, onNisabChange, currencyCode = "
         >
           <div>
             <p className="text-base font-bold text-slate-800 leading-relaxed">{t("result.netAmount")}</p>
-            <p className="text-xs text-slate-400 font-inter mt-0.5" dir="ltr">{t("result.netAmountSecondary")}</p>
+            <p className="text-xs text-slate-400 font-inter mt-0.5" dir="ltr">
+              {t("result.netAmountSecondary")}
+            </p>
           </div>
           <span className="text-xl font-bold text-slate-800 font-inter" dir="ltr">
             {formatCurrency(calculation.netZakatableAmount, currencyCode)}
@@ -153,12 +159,11 @@ export function ResultStep({ calculation, nisab, onNisabChange, currencyCode = "
 
         {/* Nisab threshold display */}
         {nisabEntered && (
-          <motion.div
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            className="text-sm text-slate-500"
-          >
-            {t("nisab.nisabValue")}: <span className="font-semibold font-inter text-slate-700" dir="ltr">{formatCurrency(calculation.nisabThreshold, currencyCode)}</span>
+          <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} className="text-sm text-slate-500">
+            {t("nisab.nisabValue")}:{" "}
+            <span className="font-semibold font-inter text-slate-700" dir="ltr">
+              {formatCurrency(calculation.nisabThreshold, currencyCode)}
+            </span>
             <span className="text-xs text-slate-400 ms-1">({tolas} tola)</span>
           </motion.div>
         )}
