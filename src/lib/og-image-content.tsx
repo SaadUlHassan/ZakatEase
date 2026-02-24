@@ -58,7 +58,12 @@ export function OgImageContent(): JSX.Element {
 
       <div style={{ fontSize: 28, color: "#99f6e4", marginBottom: 16 }}>Free Zakat Calculator</div>
 
-      <div style={{ fontSize: 26, color: "rgba(204, 251, 241, 0.8)" }}>زکوٰۃ کا آسان حساب</div>
+      <div
+        style={{ fontSize: 26, color: "rgba(204, 251, 241, 0.8)", direction: "rtl", fontFamily: "'Noto Naskh Arabic'" }}
+        lang="ur"
+      >
+        زکوٰۃ کا آسان حساب
+      </div>
 
       <div
         style={{

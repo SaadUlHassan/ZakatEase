@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useCallback } from "react";
+import { useState, useCallback, useMemo } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { useTranslations, useLocale } from "next-intl";
 import type { SectionAValues, SectionBValues, NisabConfig, CurrencyEntry } from "@/lib/types";
@@ -13,6 +13,7 @@ import {
   WIZARD_STEPS,
 } from "@/lib/constants";
 import { useZakatCalculation } from "@/hooks/useZakatCalculation";
+import { useMetalPrices } from "@/hooks/useMetalPrices";
 import { formatCurrency } from "@/lib/formatters";
 import { StepProgress } from "./StepProgress";
 import { FieldStep } from "./FieldStep";
@@ -27,9 +28,23 @@ export function ZakatCalculator() {
   const [currentStep, setCurrentStep] = useState(0);
   const [sectionA, setSectionA] = useState<SectionAValues>(DEFAULT_SECTION_A);
   const [sectionB, setSectionB] = useState<SectionBValues>(DEFAULT_SECTION_B);
-  const [nisab, setNisab] = useState<NisabConfig>(DEFAULT_NISAB);
+  const [nisabOverride, setNisabOverride] = useState<NisabConfig | null>(null);
   const [currencyEntries, setCurrencyEntries] = useState<CurrencyEntry[]>([]);
   const [primaryCurrency, setPrimaryCurrency] = useState(DEFAULT_PRIMARY_CURRENCY);
+
+  const { prices } = useMetalPrices();
+
+  const nisab = useMemo(() => {
+    if (nisabOverride) return nisabOverride;
+    if (!prices) return DEFAULT_NISAB;
+    const code = primaryCurrency.toLowerCase();
+    const gold = prices.goldPerTola[code];
+    const silver = prices.silverPerTola[code];
+    if (gold != null && silver != null) {
+      return { goldPricePerTola: gold, silverPricePerTola: silver };
+    }
+    return DEFAULT_NISAB;
+  }, [nisabOverride, prices, primaryCurrency]);
 
   const calculation = useZakatCalculation(sectionA, sectionB, nisab);
 
@@ -47,7 +62,7 @@ export function ZakatCalculator() {
   );
 
   const handleNisabChange = useCallback((config: NisabConfig) => {
-    setNisab(config);
+    setNisabOverride(config);
   }, []);
 
   const syncForeignCurrencyTotal = useCallback((entries: CurrencyEntry[]) => {
@@ -61,6 +76,7 @@ export function ZakatCalculator() {
   const handlePrimaryCurrencyChange = useCallback(
     (newCurrency: string) => {
       setPrimaryCurrency(newCurrency);
+      setNisabOverride(null);
       const filtered = currencyEntries.filter((e) => e.currencyCode !== newCurrency);
       if (filtered.length !== currencyEntries.length) {
         syncForeignCurrencyTotal(filtered);
@@ -72,7 +88,7 @@ export function ZakatCalculator() {
   const handleReset = useCallback(() => {
     setSectionA(DEFAULT_SECTION_A);
     setSectionB(DEFAULT_SECTION_B);
-    setNisab(DEFAULT_NISAB);
+    setNisabOverride(null);
     setCurrencyEntries([]);
     setCurrentStep(0);
   }, []);
@@ -138,6 +154,8 @@ export function ZakatCalculator() {
               nisab={nisab}
               onNisabChange={handleNisabChange}
               currencyCode={primaryCurrency}
+              sectionA={sectionA}
+              sectionB={sectionB}
             />
           ) : (
             <FieldStep

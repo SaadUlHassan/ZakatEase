@@ -66,13 +66,14 @@
   },
   "nisab": {
     "title": "نصاب",
-    "description": "زکوٰۃ صرف نصاب پورا ہونے پر واجب ہے",
-    "goldStandard": "سونے کا معیار",
-    "silverStandard": "چاندی کا معیار",
+    "description": "دونوں میں سے کم نصاب خود بخود استعمال ہوگا",
+    "goldPricePerTola": "سونا فی تولہ قیمت",
+    "silverPricePerTola": "چاندی فی تولہ قیمت",
     "goldLabel": "سونا (7.5 تولہ)",
     "silverLabel": "چاندی (52.5 تولہ)",
-    "pricePerTola": "فی تولہ قیمت",
-    "pricePerTolaSecondary": "Price per tola (PKR)",
+    "goldNisab": "سونے کا نصاب",
+    "silverNisab": "چاندی کا نصاب",
+    "activeNisab": "فعال",
     "nisabValue": "نصاب کی رقم",
     "meetsNisab": "نصاب پورا ہے — زکوٰۃ واجب ہے",
     "belowNisab": "نصاب پورا نہیں — زکوٰۃ واجب نہیں"
@@ -130,6 +131,7 @@
     "seeResult": "نتیجہ دیکھیں",
     "startOver": "دوبارہ شروع کریں",
     "print": "پرنٹ",
+    "generateReport": "زکوٰۃ رپورٹ ڈاؤنلوڈ کریں",
     "language": "English",
     "disclaimer": "یہ حساب صرف خود تشخیص کے لیے ہے۔ مخصوص احکام کے لیے کسی عالم سے رجوع کریں۔",
     "stepOf": "میں سے"

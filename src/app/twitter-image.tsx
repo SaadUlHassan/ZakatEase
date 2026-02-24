@@ -6,6 +6,20 @@ export const alt = "ZakatEase — Free Zakat Calculator";
 export const size = { width: 1200, height: 630 };
 export const contentType = "image/png";
 
-export default function TwitterImage() {
-  return new ImageResponse(<OgImageContent />, { ...size });
+export default async function TwitterImage() {
+  const arabicFont = await fetch(new URL("../assets/fonts/NotoNaskhArabic-Regular.ttf", import.meta.url)).then((res) =>
+    res.arrayBuffer()
+  );
+
+  return new ImageResponse(<OgImageContent />, {
+    ...size,
+    fonts: [
+      {
+        name: "Noto Naskh Arabic",
+        data: arabicFont,
+        style: "normal",
+        weight: 400,
+      },
+    ],
+  });
 }
