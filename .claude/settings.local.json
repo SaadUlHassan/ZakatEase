@@ -1,0 +1,39 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(sips -s format jpeg /Users/saadulhassan/Desktop/Projects/ZakatEase/ZakatEase-Requirement-2.HEIC --out /tmp/ZakatEase-Requirement-2.jpg -Z 2000)",
+      "Bash(sips -s format jpeg -s formatOptions 30 /Users/saadulhassan/Desktop/Projects/ZakatEase/ZakatEase-Requirement-1.heic --out /tmp/ZakatEase-Req-1.jpg -Z 1500)",
+      "Bash(sips -s format jpeg -s formatOptions 30 /Users/saadulhassan/Desktop/Projects/ZakatEase/ZakatEase-Requirement-2.HEIC --out /tmp/ZakatEase-Req-2.jpg -Z 1500)",
+      "Bash(npx create-next-app@latest . --typescript --tailwind --eslint --app --src-dir --import-alias \"@/*\" --use-npm)",
+      "Bash(npx create-next-app@latest zakatease --typescript --tailwind --eslint --app --src-dir --import-alias \"@/*\" --use-npm)",
+      "Bash(rsync -av --exclude='.git' /tmp/zakatease/ /Users/saadulhassan/Desktop/Projects/ZakatEase/)",
+      "Bash(npm install next-intl --prefix /Users/saadulhassan/Desktop/Projects/ZakatEase)",
+      "Bash(npm install framer-motion)",
+      "Bash(gh auth status)",
+      "Bash(git -C /Users/saadulhassan/Desktop/Projects/ZakatEase remote -v)",
+      "Bash(GH_TOKEN=\"\" GITHUB_TOKEN=\"\" gh repo view SaadUlHassan/ZakatEase --json name,visibility,defaultBranch)",
+      "Bash(GH_TOKEN=\"\" GITHUB_TOKEN=\"\" gh repo view SaadUlHassan/ZakatEase --json name,visibility,defaultBranchRef)",
+      "Bash(git -C /Users/saadulhassan/Desktop/Projects/ZakatEase status -s)",
+      "Bash(git -C /Users/saadulhassan/Desktop/Projects/ZakatEase status)",
+      "Bash(git -C /Users/saadulhassan/Desktop/Projects/ZakatEase log --oneline -5)",
+      "Bash(GH_TOKEN=\"\" GITHUB_TOKEN=\"\" gh api repos/SaadUlHassan/ZakatEase/branches/main/protection --method PUT --input - 2)",
+      "Bash(1:*)",
+      "Bash(GH_TOKEN=\"\" GITHUB_TOKEN=\"\" gh repo edit SaadUlHassan/ZakatEase --visibility public)",
+      "Bash(GH_TOKEN=\"\" GITHUB_TOKEN=\"\" gh repo edit SaadUlHassan/ZakatEase --visibility public --accept-visibility-change-consequences)",
+      "Bash(git checkout -b feature/zakat-inspiration)",
+      "Bash(npm install -D prettier eslint-config-prettier husky lint-staged)",
+      "Bash(npx husky init)",
+      "Bash(npm run format)",
+      "Bash(npm run lint)",
+      "Bash(npm run format:check)",
+      "Bash(find \"/Users/saadulhassan/Desktop/Projects/ZakatEase\" -type f -name \"package.json\" -exec cat {} ;)",
+      "Bash(rsvg-convert -w 180 -h 180 /Users/saadulhassan/Desktop/Projects/ZakatEase/src/app/icon.svg -o /Users/saadulhassan/Desktop/Projects/ZakatEase/public/apple-touch-icon.png)",
+      "Bash(rsvg-convert -w 192 -h 192 /Users/saadulhassan/Desktop/Projects/ZakatEase/src/app/icon.svg -o /Users/saadulhassan/Desktop/Projects/ZakatEase/public/icon-192.png)",
+      "Bash(rsvg-convert -w 512 -h 512 /Users/saadulhassan/Desktop/Projects/ZakatEase/src/app/icon.svg -o /Users/saadulhassan/Desktop/Projects/ZakatEase/public/icon-512.png)",
+      "Bash(npm run format -- README.md)",
+      "Bash(git -C /Users/saadulhassan/Desktop/Projects/ZakatEase diff --stat)",
+      "Bash(git -C /Users/saadulhassan/Desktop/Projects/ZakatEase diff HEAD --stat)",
+      "Bash(git -C /Users/saadulhassan/Desktop/Projects/ZakatEase add README.md .claude/settings.local.json)"
+    ]
+  }
+}

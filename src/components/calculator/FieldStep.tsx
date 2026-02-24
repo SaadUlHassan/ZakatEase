@@ -17,7 +17,14 @@ interface FieldStepProps {
   currencyCode?: string;
 }
 
-export function FieldStep({ step, values, onChange, stepTotal, renderCustomField, currencyCode = "PKR" }: FieldStepProps) {
+export function FieldStep({
+  step,
+  values,
+  onChange,
+  stepTotal,
+  renderCustomField,
+  currencyCode = "PKR",
+}: FieldStepProps) {
   const t = useTranslations();
 
   return (
@@ -29,17 +36,15 @@ export function FieldStep({ step, values, onChange, stepTotal, renderCustomField
     >
       {/* Step header */}
       <div className="flex items-center gap-3 mb-6">
-        <div className={`w-12 h-12 rounded-2xl flex items-center justify-center ${
-          step.section === "B"
-            ? "bg-rose-100 text-rose-600"
-            : "bg-teal-100 text-teal-600"
-        }`}>
+        <div
+          className={`w-12 h-12 rounded-2xl flex items-center justify-center ${
+            step.section === "B" ? "bg-rose-100 text-rose-600" : "bg-teal-100 text-teal-600"
+          }`}
+        >
           <StepIcon name={step.icon} />
         </div>
         <div>
-          <h2 className="text-xl font-bold text-slate-800 leading-relaxed">
-            {t(`${step.translationKey}.title`)}
-          </h2>
+          <h2 className="text-xl font-bold text-slate-800 leading-relaxed">{t(`${step.translationKey}.title`)}</h2>
           <p className="text-sm text-slate-400 font-inter mt-0.5" dir="ltr">
             {t(`${step.translationKey}.subtitle`)}
           </p>
@@ -80,19 +85,16 @@ export function FieldStep({ step, values, onChange, stepTotal, renderCustomField
           initial={{ opacity: 0, scale: 0.95 }}
           animate={{ opacity: 1, scale: 1 }}
           className={`mt-5 rounded-2xl p-4 flex items-center justify-between ${
-            step.section === "B"
-              ? "bg-rose-50 border border-rose-200"
-              : "bg-teal-50 border border-teal-200"
+            step.section === "B" ? "bg-rose-50 border border-rose-200" : "bg-teal-50 border border-teal-200"
           }`}
         >
-          <span className={`text-sm font-semibold ${
-            step.section === "B" ? "text-rose-700" : "text-teal-700"
-          }`}>
+          <span className={`text-sm font-semibold ${step.section === "B" ? "text-rose-700" : "text-teal-700"}`}>
             {step.section === "B" ? t("sectionB.total") : t("sectionA.total")}
           </span>
-          <span className={`text-lg font-bold font-inter ${
-            step.section === "B" ? "text-rose-600" : "text-teal-600"
-          }`} dir="ltr">
+          <span
+            className={`text-lg font-bold font-inter ${step.section === "B" ? "text-rose-600" : "text-teal-600"}`}
+            dir="ltr"
+          >
             {formatCurrency(stepTotal, currencyCode)}
           </span>
         </motion.div>

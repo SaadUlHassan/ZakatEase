@@ -39,12 +39,12 @@ npm run dev
 
 ## Project Conventions
 
-| Convention | Example |
-|-----------|---------|
-| Components | PascalCase, one per file (`CurrencyInput.tsx`) |
-| Hooks | `use` prefix (`useNumericInput.ts`) |
-| Types | Defined in `src/lib/types.ts` |
-| Constants | UPPER_SNAKE_CASE in `src/lib/constants.ts` |
+| Convention   | Example                                                        |
+| ------------ | -------------------------------------------------------------- |
+| Components   | PascalCase, one per file (`CurrencyInput.tsx`)                 |
+| Hooks        | `use` prefix (`useNumericInput.ts`)                            |
+| Types        | Defined in `src/lib/types.ts`                                  |
+| Constants    | UPPER_SNAKE_CASE in `src/lib/constants.ts`                     |
 | Translations | Nested keys matching section structure (`sectionA.gold.label`) |
 
 ## What Makes a Good PR

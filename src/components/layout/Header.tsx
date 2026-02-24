@@ -15,11 +15,7 @@ export function Header() {
 
       <div className="relative container mx-auto max-w-xl px-4 py-8">
         <div className="flex items-start justify-between">
-          <motion.div
-            initial={{ opacity: 0, y: 10 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.5 }}
-          >
+          <motion.div initial={{ opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.5 }}>
             <h1 className="text-3xl font-bold tracking-tight leading-[1.8]">{t("title")}</h1>
             <p className="text-teal-200 text-sm mt-2 leading-relaxed">{t("subtitle")}</p>
           </motion.div>

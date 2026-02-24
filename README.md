@@ -2,6 +2,8 @@
 
 A bilingual (Urdu / English) Zakat self-assessment calculator built with Next.js. Walks users through a step-by-step wizard to calculate their yearly Zakat obligation based on gold, silver, cash, investments, business assets, and deductions.
 
+**Live Demo:** [zakat-ease-three.vercel.app](https://zakat-ease-three.vercel.app)
+
 ## Features
 
 - **7-Step Wizard** — Guided flow covering cash & bank, precious metals, investments, business assets, other assets, deductions, and the final result with Nisab comparison.
@@ -10,20 +12,23 @@ A bilingual (Urdu / English) Zakat self-assessment calculator built with Next.js
 - **Primary Currency Setting** — Choose any supported currency as your base for all calculations. Switching filters it from the foreign currency dropdown automatically.
 - **Nisab Calculation** — Gold (7.5 tola) or Silver (52.5 tola) standard. Enter the current price per tola and the app determines whether Zakat is obligatory.
 - **Helpful Tooltips** — Contextual guidance on trade goods vs. personal property, receivable debts, installment deductions, savings certificates, and more.
+- **Inspiration Banner** — Auto-rotating Quranic ayahs and hadiths about Zakat with source links to Quran.com and Sunnah.com.
 - **Animated Transitions** — Smooth step-to-step animations with Framer Motion.
 - **Responsive & Mobile-First** — Clean, minimal design optimized for phone screens.
+- **SEO Optimized** — Comprehensive metadata, Open Graph, Twitter cards, JSON-LD structured data, sitemap, and robots.txt.
+- **PWA Ready** — Web app manifest with icons for "Add to Home Screen" support.
 
 ## Tech Stack
 
-| Layer | Technology |
-|-------|-----------|
-| Framework | [Next.js 16](https://nextjs.org) (App Router, Turbopack) |
-| Language | TypeScript (strict) |
-| Styling | [Tailwind CSS v4](https://tailwindcss.com) |
-| i18n | [next-intl](https://next-intl.dev) (cookie-based locale) |
-| Animations | [Framer Motion](https://motion.dev) |
-| Fonts | Noto Nastaliq Urdu + Inter via `next/font/google` |
-| React | React 19 with React Compiler |
+| Layer      | Technology                                               |
+| ---------- | -------------------------------------------------------- |
+| Framework  | [Next.js 16](https://nextjs.org) (App Router, Turbopack) |
+| Language   | TypeScript (strict)                                      |
+| Styling    | [Tailwind CSS v4](https://tailwindcss.com)               |
+| i18n       | [next-intl](https://next-intl.dev) (cookie-based locale) |
+| Animations | [Framer Motion](https://motion.dev)                      |
+| Fonts      | Noto Nastaliq Urdu + Inter via `next/font/google`        |
+| React      | React 19 with React Compiler                             |
 
 ## Getting Started
 
@@ -43,24 +48,26 @@ Open [http://localhost:3000](http://localhost:3000) in your browser.
 
 ## Scripts
 
-| Command | Description |
-|---------|-------------|
-| `npm run dev` | Start development server |
-| `npm run build` | Create production build |
-| `npm run start` | Serve production build |
-| `npm run lint` | Run ESLint |
+| Command                | Description                      |
+| ---------------------- | -------------------------------- |
+| `npm run dev`          | Start development server         |
+| `npm run build`        | Create production build          |
+| `npm run start`        | Serve production build           |
+| `npm run lint`         | Run ESLint                       |
+| `npm run format`       | Format all files with Prettier   |
+| `npm run format:check` | Check formatting without writing |
 
 ## Project Structure
 
 ```
 src/
-├── app/                  # Next.js App Router (layout, page, globals.css)
+├── app/                  # Next.js App Router (layout, page, SEO routes, OG images)
 ├── components/
 │   ├── calculator/       # Wizard steps, currency inputs, result display
-│   └── layout/           # Header, Footer, LanguageToggle
+│   └── layout/           # Header, Footer, LanguageToggle, InspirationBanner
 ├── hooks/                # useZakatCalculation, useNumericInput
 ├── i18n/                 # next-intl request config
-├── lib/                  # Types, constants, formatters
+├── lib/                  # Types, constants, formatters, OG image content
 └── messages/             # en.json, ur.json translation files
 ```
 
@@ -71,6 +78,12 @@ src/
 3. **Net Zakatable Amount** — Total Assets minus Total Deductions (minimum 0).
 4. **Nisab Check** — If net amount >= Nisab threshold (gold or silver tola price x tola count), Zakat is obligatory.
 5. **Zakat** — Net Zakatable Amount / 40 (i.e., 2.5%).
+
+## Code Quality
+
+- **Prettier** — Consistent formatting enforced across the codebase.
+- **Husky + lint-staged** — Pre-commit hooks auto-format staged files and block commits with lint errors.
+- **CI Pipeline** — GitHub Actions runs format check, ESLint, TypeScript type-check, and build on every PR.
 
 ## Deployment
 
