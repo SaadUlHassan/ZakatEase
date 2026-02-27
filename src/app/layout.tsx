@@ -4,6 +4,7 @@ import { NextIntlClientProvider } from "next-intl";
 import { getLocale, getMessages } from "next-intl/server";
 import { Analytics } from "@vercel/analytics/react";
 import { SpeedInsights } from "@vercel/speed-insights/next";
+import { InstallPrompt } from "@/components/pwa/InstallPrompt";
 import { SITE_URL } from "@/lib/constants";
 import "./globals.css";
 
@@ -118,6 +119,7 @@ export default async function RootLayout({
       <body className={`${fontClass} antialiased`}>
         <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }} />
         <NextIntlClientProvider messages={messages}>{children}</NextIntlClientProvider>
+        <InstallPrompt />
         <Analytics />
         <SpeedInsights />
       </body>
