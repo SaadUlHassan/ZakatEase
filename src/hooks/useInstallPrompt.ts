@@ -7,6 +7,8 @@ interface BeforeInstallPromptEvent extends Event {
   userChoice: Promise<{ outcome: "accepted" | "dismissed" }>;
 }
 
+const DISMISS_KEY = "pwa-install-dismissed";
+
 function getIsStandalone() {
   if (typeof window === "undefined") return false;
   return (
@@ -21,9 +23,25 @@ function subscribeToStandalone(callback: () => void) {
   return () => mql.removeEventListener("change", callback);
 }
 
+function getIsIOSSafari() {
+  if (typeof window === "undefined") return false;
+  const ua = window.navigator.userAgent;
+  const isIOS = /iPad|iPhone|iPod/.test(ua) || (/Macintosh/.test(ua) && navigator.maxTouchPoints > 1);
+  const isSafari = /Safari/.test(ua) && !/CriOS|FxiOS|OPiOS|EdgiOS|Chrome/.test(ua);
+  return isIOS && isSafari;
+}
+
 export function useInstallPrompt() {
   const isStandalone = useSyncExternalStore(subscribeToStandalone, getIsStandalone, () => false);
   const [deferredPrompt, setDeferredPrompt] = useState<BeforeInstallPromptEvent | null>(null);
+  const [dismissed, setDismissed] = useState(() => {
+    if (typeof window === "undefined") return false;
+    return localStorage.getItem(DISMISS_KEY) === "1";
+  });
+
+  const isIOSSafari = getIsIOSSafari();
+  const showIOSGuide = isIOSSafari && !isStandalone && !dismissed;
+  const canInstall = (!!deferredPrompt && !isStandalone) || showIOSGuide;
 
   useEffect(() => {
     if (isStandalone) return;
@@ -56,7 +74,9 @@ export function useInstallPrompt() {
 
   const dismiss = useCallback(() => {
     setDeferredPrompt(null);
+    setDismissed(true);
+    localStorage.setItem(DISMISS_KEY, "1");
   }, []);
 
-  return { canInstall: !!deferredPrompt && !isStandalone, isInstalled: isStandalone, install, dismiss };
+  return { canInstall, isInstalled: isStandalone, isIOSSafari: showIOSGuide, install, dismiss };
 }
